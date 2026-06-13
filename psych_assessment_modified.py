@@ -939,14 +939,14 @@ def page_report():
                   font-family:'Share Tech Mono',monospace;margin-bottom:1rem;">
         ✦ PSYCHOLOGICAL STATE · BEFORE vs AFTER ADAPTIVE ADJUSTMENT
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+      <div style="display:flex;gap:1.2rem;flex-wrap:wrap;">
 
-        <div style="background:rgba(80,15,15,0.35);border:1px solid #5a1a1a;border-radius:10px;padding:1rem;">
+        <div style="background:rgba(80,15,15,0.35);border:1px solid #5a1a1a;border-radius:10px;padding:1rem;flex:1;">
           <div style="color:#ff7043;font-size:0.7rem;letter-spacing:0.1em;font-family:'Share Tech Mono',monospace;margin-bottom:0.8rem;">
             BEFORE ADJUSTMENT
           </div>
           {"".join([
-            f'<div style="margin-bottom:0.6rem;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:0.82rem;color:#c8a090;">{n}</span><span style="font-size:0.8rem;color:{c};font-family:\'Share Tech Mono\',monospace;">{v}/10</span></div><div style="background:rgba(10,20,40,0.6);border-radius:3px;height:5px;"><div style="width:{v*10}%;background:{c};height:5px;border-radius:3px;opacity:0.7;"></div></div></div>'
+            f'<div style="margin-bottom:0.6rem;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:0.82rem;color:#c8a090;">{n}</span><span style="font-size:0.8rem;color:{c};font-family:'Share Tech Mono', monospace;">{v}/10</span></div><div style="background:rgba(10,20,40,0.6);border-radius:3px;height:5px;"><div style="width:{v*10}%;background:{c};height:5px;border-radius:3px;opacity:0.7;"></div></div></div>'
             for n, v, c in [("Focus", focus_before, "#ff7043"), ("Stress Load", stress_before, "#ff7043"), ("Impulse Control", impulse_before, "#ff7043")]
           ])}
           <div style="margin-top:0.8rem;text-align:center;color:#ff7043;font-size:1.4rem;
@@ -954,12 +954,12 @@ def page_report():
         </div>
 
         <div style="background:rgba(10,40,20,0.45);border:1px solid #1a6a2a;border-radius:10px;padding:1rem;
-                    box-shadow:0 0 16px rgba(0,230,118,0.1);">
+                    box-shadow:0 0 16px rgba(0,230,118,0.1);flex:1;">
           <div style="color:#00e676;font-size:0.7rem;letter-spacing:0.1em;font-family:'Share Tech Mono',monospace;margin-bottom:0.8rem;">
             AFTER ADJUSTMENT ✦
           </div>
           {"".join([
-            f'<div style="margin-bottom:0.6rem;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:0.82rem;color:#a8ccee;">{n}</span><span style="font-size:0.8rem;color:{c};font-family:\'Share Tech Mono\',monospace;">{v}/10</span></div><div style="background:rgba(10,20,40,0.6);border-radius:3px;height:5px;"><div style="width:{v*10}%;background:{c};height:5px;border-radius:3px;box-shadow:0 0 6px {c}66;"></div></div></div>'
+            f'<div style="margin-bottom:0.6rem;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:0.82rem;color:#a8ccee;">{n}</span><span style="font-size:0.8rem;color:{c};font-family:'Share Tech Mono', monospace;">{v}/10</span></div><div style="background:rgba(10,20,40,0.6);border-radius:3px;height:5px;"><div style="width:{v*10}%;background:{c};height:5px;border-radius:3px;box-shadow:0 0 6px {c}66;"></div></div></div>'
             for n, v, c in [("Focus", sc.get("focus",5), "#4dc3ff"), ("Stress Load", sc.get("stress",5), "#00e676" if sc.get("stress",5)<5 else "#ffb300"), ("Impulse Control", sc.get("impulse",5), "#a78bfa")]
           ])}
           <div style="margin-top:0.8rem;text-align:center;color:#00e676;font-size:1.4rem;
