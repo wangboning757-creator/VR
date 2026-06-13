@@ -1,4 +1,5 @@
 import streamlit as st
+import textwrap
 import time
 import math
 
@@ -932,7 +933,7 @@ def page_report():
     """, unsafe_allow_html=True)
 
     # Before / After 心理状态对比
-    st.markdown(f"""
+    st.markdown(textwrap.dedent(f"""
     <div style="background:rgba(6,18,44,0.92);border:1px solid #1a4a8a;border-radius:14px;
                 padding:1.4rem 1.8rem;margin-bottom:1.2rem;">
       <div style="color:#4dc3ff;font-size:0.74rem;letter-spacing:0.12em;
@@ -973,7 +974,7 @@ def page_report():
         Adaptive environmental adjustment has helped recalibrate your cognitive and emotional state. 🌿
       </div>
     </div>
-    """, unsafe_allow_html=True)
+    """), unsafe_allow_html=True)
 
     col_l, col_r = st.columns(2)
 
