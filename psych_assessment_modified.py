@@ -931,7 +931,43 @@ def page_report():
     </div>
     """, unsafe_allow_html=True)
 
-    # Before / After 心理状态对比
+        # 1. 先在外部构建 Before / After 的进度条 HTML
+    before_bars_html = "".join([
+        f'<div style="margin-bottom:0.6rem;">'
+        f'<div style="display:flex;justify-content:space-between;margin-bottom:3px;">'
+        f'<span style="font-size:0.82rem;color:#c8a090;">{n}</span>'
+        f'<span style="font-size:0.8rem;color:{c};font-family:\'Share Tech Mono\',monospace;">{v}/10</span>'
+        f'</div>'
+        f'<div style="background:rgba(10,20,40,0.6);border-radius:3px;height:5px;">'
+        f'<div style="width:{v*10}%;background:{c};height:5px;border-radius:3px;opacity:0.7;"></div>'
+        f'</div></div>'
+        for n, v, c in [
+            ("Focus", focus_before, "#ff7043"),
+            ("Stress Load", stress_before, "#ff7043"),
+            ("Impulse Control", impulse_before, "#ff7043")
+        ]
+    ])
+    
+    after_stress_color = "#00e676" if sc.get("stress", 5) < 5 else "#ffb300"
+    after_bars_html = "".join([
+        f'<div style="margin-bottom:0.6rem;">'
+        f'<div style="display:flex;justify-content:space-between;margin-bottom:3px;">'
+        f'<span style="font-size:0.82rem;color:#a8ccee;">{n}</span>'
+        f'<span style="font-size:0.8rem;color:{c};font-family:\'Share Tech Mono\',monospace;">{v}/10</span>'
+        f'</div>'
+        f'<div style="background:rgba(10,20,40,0.6);border-radius:3px;height:5px;">'
+        f'<div style="width:{v*10}%;background:{c};height:5px;border-radius:3px;box-shadow:0 0 6px {c}66;"></div>'
+        f'</div></div>'
+        for n, v, c in [
+            ("Focus", sc.get("focus", 5), "#4dc3ff"),
+            ("Stress Load", sc.get("stress", 5), after_stress_color),
+            ("Impulse Control", sc.get("impulse", 5), "#a78bfa")
+        ]
+    ])
+    
+    delta = overall - overall_before
+    
+    # 2. 再用干净的 f-string 渲染（此时内部不再有 .join 和复杂转义）
     st.markdown(f"""
     <div style="background:rgba(6,18,44,0.92);border:1px solid #1a4a8a;border-radius:14px;
                 padding:1.4rem 1.8rem;margin-bottom:1.2rem;">
@@ -940,42 +976,40 @@ def page_report():
         ✦ PSYCHOLOGICAL STATE · BEFORE vs AFTER ADAPTIVE ADJUSTMENT
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
-
+    
+        <!-- BEFORE -->
         <div style="background:rgba(80,15,15,0.35);border:1px solid #5a1a1a;border-radius:10px;padding:1rem;">
           <div style="color:#ff7043;font-size:0.7rem;letter-spacing:0.1em;font-family:'Share Tech Mono',monospace;margin-bottom:0.8rem;">
             BEFORE ADJUSTMENT
           </div>
-          {"".join([
-            f'<div style="margin-bottom:0.6rem;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:0.82rem;color:#c8a090;">{n}</span><span style="font-size:0.8rem;color:{c};font-family:\'Share Tech Mono\',monospace;">{v}/10</span></div><div style="background:rgba(10,20,40,0.6);border-radius:3px;height:5px;"><div style="width:{v*10}%;background:{c};height:5px;border-radius:3px;opacity:0.7;"></div></div></div>'
-            for n, v, c in [("Focus", focus_before, "#ff7043"), ("Stress Load", stress_before, "#ff7043"), ("Impulse Control", impulse_before, "#ff7043")]
-          ])}
+          {before_bars_html}
           <div style="margin-top:0.8rem;text-align:center;color:#ff7043;font-size:1.4rem;
-                      font-family:'Share Tech Mono',monospace;">{overall_before}<span style="font-size:0.85rem;color:#8a3a2a;">/100</span></div>
+                      font-family:'Share Tech Mono',monospace;">
+            {overall_before}<span style="font-size:0.85rem;color:#8a3a2a;">/100</span>
+          </div>
         </div>
-
+    
+        <!-- AFTER -->
         <div style="background:rgba(10,40,20,0.45);border:1px solid #1a6a2a;border-radius:10px;padding:1rem;
                     box-shadow:0 0 16px rgba(0,230,118,0.1);">
           <div style="color:#00e676;font-size:0.7rem;letter-spacing:0.1em;font-family:'Share Tech Mono',monospace;margin-bottom:0.8rem;">
             AFTER ADJUSTMENT ✦
           </div>
-          {"".join([
-            f'<div style="margin-bottom:0.6rem;"><div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:0.82rem;color:#a8ccee;">{n}</span><span style="font-size:0.8rem;color:{c};font-family:\'Share Tech Mono\',monospace;">{v}/10</span></div><div style="background:rgba(10,20,40,0.6);border-radius:3px;height:5px;"><div style="width:{v*10}%;background:{c};height:5px;border-radius:3px;box-shadow:0 0 6px {c}66;"></div></div></div>'
-            for n, v, c in [("Focus", sc.get("focus",5), "#4dc3ff"), ("Stress Load", sc.get("stress",5), "#00e676" if sc.get("stress",5)<5 else "#ffb300"), ("Impulse Control", sc.get("impulse",5), "#a78bfa")]
-          ])}
+          {after_bars_html}
           <div style="margin-top:0.8rem;text-align:center;color:#00e676;font-size:1.4rem;
-                      font-family:'Share Tech Mono',monospace;">{overall}<span style="font-size:0.85rem;color:#2a7a4a;">/100</span>
-            <span style="font-size:0.75rem;color:#00e676;margin-left:0.5rem;">▲ +{overall - overall_before}</span>
+                      font-family:'Share Tech Mono',monospace;">
+            {overall}<span style="font-size:0.85rem;color:#2a7a4a;">/100</span>
+            <span style="font-size:0.75rem;color:#00e676;margin-left:0.5rem;">▲ +{delta}</span>
           </div>
         </div>
-
+    
       </div>
       <div style="margin-top:1rem;text-align:center;color:#5a9a7a;font-size:0.82rem;">
         Adaptive environmental adjustment has helped recalibrate your cognitive and emotional state. 🌿
       </div>
     </div>
     """, unsafe_allow_html=True)
-
-    col_l, col_r = st.columns(2)
+        col_l, col_r = st.columns(2)
 
     with col_l:
         stress_ctrl = 10 - sc.get("stress", 5)
