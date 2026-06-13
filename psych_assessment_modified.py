@@ -931,7 +931,7 @@ def page_report():
     </div>
     """, unsafe_allow_html=True)
 
-# Before / After 心理状态对比
+    # Before / After 心理状态对比
     st.markdown(f"""
     <div style="background:rgba(6,18,44,0.92);border:1px solid #1a4a8a;border-radius:14px;
                 padding:1.4rem 1.8rem;margin-bottom:1.2rem;">
@@ -974,7 +974,8 @@ def page_report():
       </div>
     </div>
     """, unsafe_allow_html=True)
-        col_l, col_r = st.columns(2)
+
+    col_l, col_r = st.columns(2)
 
     with col_l:
         stress_ctrl = 10 - sc.get("stress", 5)
