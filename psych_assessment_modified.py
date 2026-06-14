@@ -75,12 +75,18 @@ section[data-testid="stMain"] > div {{ padding-top: 1rem !important; }}
     display: block !important;
     cursor: pointer !important;
     transition: all 0.2s !important;
-    color: #a8ccee !important;
+    color: #e8f4ff !important;
     font-family: 'Exo 2', sans-serif !important;
 }}
 [data-testid="stRadio"] label:hover {{
     background: rgba(26,74,138,0.7) !important;
     border-color: #2a8ae8 !important;
+    color: #ffffff !important;
+}}
+[data-testid="stRadio"] label p,
+[data-testid="stRadio"] label span,
+[data-testid="stRadio"] label div,
+[data-testid="stRadio"] div[role="radiogroup"] label {{
     color: #e8f4ff !important;
 }}
 
@@ -530,7 +536,7 @@ def page_assessment():
     </div>
     """, unsafe_allow_html=True)
 
-    # Radio 样式
+    # Radio 样式 — assessment页透明背景，强制白色文字
     st.markdown("""
     <style>
     [data-testid="stRadio"] label {
@@ -543,6 +549,13 @@ def page_assessment():
         background: transparent !important;
         border-color: #4dc3ff !important;
         color: #4dc3ff !important;
+    }
+    [data-testid="stRadio"] label p,
+    [data-testid="stRadio"] label span,
+    [data-testid="stRadio"] label div,
+    [data-testid="stRadio"] div[role="radiogroup"] label {
+        color: #ffffff !important;
+        text-shadow: 0 1px 6px rgba(0,0,0,0.95) !important;
     }
     </style>
     """, unsafe_allow_html=True)
